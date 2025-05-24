@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sistema de Conta | Login e Cadastro</title>
-    <link rel="stylesheet" href="admin.css" />
+    <title>Sistema de Conta | Login</title>
+    <link rel="stylesheet" href="assets/css/admin.css" />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -28,52 +28,6 @@
             >Esqueceu sua senha?</a
           >
           <button type="submit">Entrar</button>
-          <div class="mobile-signup">
-            <p>
-              Não tem uma conta?
-              <a href="#" onclick="showSignUp()">Cadastre-se</a>
-            </p>
-          </div>
-        </form>
-      </div>
-
-      <!-- Formulário de Cadastro -->
-      <div class="form-container sign-up">
-        <form id="registerForm" onsubmit="return validatePasswords()">
-          <h1>Criar Conta</h1>
-          <input type="text" placeholder="Nome" required />
-          <input type="email" placeholder="Email" required />
-          <div class="password-field">
-            <input
-              type="password"
-              placeholder="Senha"
-              id="createPassword"
-              required
-            />
-            <i
-              class="fas fa-eye-slash toggle-password"
-              onclick="togglePassword('createPassword')"
-            ></i>
-          </div>
-          <div class="password-field">
-            <input
-              type="password"
-              placeholder="Confirmar Senha"
-              id="confirmPassword"
-              required
-            />
-            <i
-              class="fas fa-eye-slash toggle-password"
-              onclick="togglePassword('confirmPassword')"
-            ></i>
-          </div>
-          <div id="password-error" class="error-message"></div>
-          <button type="submit">Cadastrar</button>
-          <div class="mobile-signin">
-            <p>
-              Já tem uma conta? <a href="#" onclick="showSignIn()">Entrar</a>
-            </p>
-          </div>
         </form>
       </div>
 
@@ -97,53 +51,47 @@
       <!-- Container do Painel Lateral -->
       <div class="toggle-container">
         <div class="toggle">
-          <!-- Painel quando estiver no Cadastro -->
-          <div class="toggle-panel toggle-left">
-            <h1>Bem-vindo de volta!</h1>
+          <!-- Painel para Login -->
+          <div class="toggle-panel toggle-right visible">
+            <h1>Bem-vindo!</h1>
             <p>
-              Faça login com seus dados pessoais para se manter conectado
-              conosco
+              Faça login com seus dados de administrador para acessar o painel
             </p>
-            <button type="button" onclick="showSignIn()">Entrar</button>
-          </div>
-
-          <!-- Painel quando estiver no Login -->
-          <div class="toggle-panel toggle-right">
-            <h1>Olá, Amigo!</h1>
-            <p>
-              Registre-se com seus dados pessoais para utilizar todos os
-              recursos do site
-            </p>
-            <button type="button" onclick="showSignUp()">Cadastrar</button>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Painel de Admin (inicialmente oculto) -->
+    <div id="adminPanel" class="admin-panel hidden">
+      <h1>Painel Administrativo</h1>
+      <div class="admin-content">
+        <div class="user-management">
+          <h2>Gerenciamento de Usuários</h2>
+          <div id="usersList" class="users-list">
+            <!-- Lista de usuários será preenchida via JavaScript -->
+          </div>
+        </div>
+        <button id="logoutButton" class="logout-btn">Sair</button>
+      </div>
+    </div>
+
+    <!-- Loading overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+      <div class="loader"></div>
+      <p>Carregando...</p>
+    </div>
+
+    <script type="module" src="assets/js/config/firebase-config.js"></script>
     <script>
       const container = document.getElementById("container");
-      const createPasswordInput = document.getElementById("createPassword");
-      const confirmPasswordInput = document.getElementById("confirmPassword");
-      const errorElement = document.getElementById("password-error");
-
-      function showSignUp() {
-        container.classList.add("active");
-        container.classList.remove("forgot");
-        // Limpar campos e mensagens de erro ao trocar de tela
-        if (document.getElementById("registerForm")) {
-          document.getElementById("registerForm").reset();
-          errorElement.textContent = "";
-        }
-      }
 
       function showSignIn() {
-        container.classList.remove("active");
         container.classList.remove("forgot");
       }
 
       function showForgotPassword() {
         container.classList.add("forgot");
-        container.classList.remove("active");
       }
 
       // Função para alternar visibilidade da senha
@@ -162,38 +110,11 @@
         }
       }
 
-      // Função para validar se as senhas são iguais
-      function validatePasswords() {
-        const password = createPasswordInput.value;
-        const confirmPassword = confirmPasswordInput.value;
-
-        // Se ambos os campos estiverem vazios ou apenas um estiver preenchido, não mostrar erro ainda
-        if (!password || !confirmPassword) {
-          errorElement.textContent = "";
-          return false;
-        }
-
-        if (password !== confirmPassword) {
-          errorElement.textContent = "As senhas não coincidem";
-          return false;
-        } else {
-          errorElement.textContent = "";
-          return true;
-        }
-      }
-
-      // Adicionar validação em tempo real para ambos os campos
-      createPasswordInput.addEventListener("input", validatePasswords);
-      confirmPasswordInput.addEventListener("input", validatePasswords);
-
-      // Prevenir envio do formulário se as senhas não coincidirem
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", function (event) {
-          if (!validatePasswords()) {
-            event.preventDefault();
-          }
-        });
+      // Exportar funções para que possam ser acessadas pelo módulo de autenticação
+      window.showSignIn = showSignIn;
+      window.showForgotPassword = showForgotPassword;
     </script>
+    <script type="module" src="assets/js/auth/admin-auth.js"></script>
+    <script type="module" src="assets/js/admin/admin-panel.js"></script>
   </body>
 </html>

@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
     <header>
@@ -41,10 +41,9 @@
                     <input type="text" id="cpf" required>
                 </div>
 
+                <h3 class="category-heading">Selecione uma categoria para iniciar a pesquisa</h3>
                 <div class="category-buttons">
-                    <button class="category-btn" data-category="saude">Saúde</button>
-                    <button class="category-btn" data-category="educacao">Educação</button>
-                    <button class="category-btn" data-category="servicos">Serviços Públicos</button>
+                    <!-- Categorias serão carregadas dinamicamente do Firebase -->
                 </div>
 
                 <div id="locationFilter" class="location-filter hidden">
@@ -84,6 +83,13 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loader"></div>
+        <p>Carregando categorias...</p>
+    </div>
+
+    <script type="module" src="assets/js/firebase-config.js"></script>
+    <script type="module" src="assets/js/script.js"></script>
 </body>
 </html> 

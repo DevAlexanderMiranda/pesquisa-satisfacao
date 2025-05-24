@@ -1,129 +1,24 @@
-// Questions data
-const questions = {
-    saude: [
-        "Como você avalia a comunicação e clareza das informações fornecidas pelo médico?",
-        "Como você avalia a disponibilidade e atenção do enfermeiro durante o atendimento?",
-        "Como você avalia a eficiência dos técnicos de saúde nos procedimentos realizados?",
-        "Como você avalia a clareza das explicações fornecidas pelo médico?",
-        "Como você avalia a atenção e o cuidado demonstrados pelo médico durante seu atendimento?",
-        "Como você avalia a atenção e o cuidado demonstrados pela equipe de enfermagem?",
-        "Como você avalia a atenção e o cuidado demonstrados pelos técnicos de saúde?",
-        "Como você avalia a qualidade geral do atendimento recebido na unidade de saúde?",
-        "Como você avalia a estrutura e organização da unidade de saúde?",
-        "Como você avalia a limpeza e conservação do ambiente da unidade de saúde?",
-        "Como você avalia a sensação de acolhimento durante seu atendimento?",
-        "Como você avalia a confiança que os profissionais da unidade transmitiram durante o atendimento?",
-        "Como você avalia a facilidade de acesso aos serviços da unidade de saúde?",
-        "Como você avalia a agilidade no processo de atendimento como um todo?",
-        "Como você avalia a capacidade dos profissionais em resolver suas necessidades de saúde?"
-    ],
-    educacao: [
-        "Como você avalia a qualidade do ensino?",
-        "Como você avalia a infraestrutura da escola?",
-        "Como você avalia o material didático?",
-        "Como você avalia o corpo docente?",
-        "Como você avalia a merenda escolar?",
-        "Como você avalia o transporte escolar?",
-        "Como você avalia a segurança da escola?",
-        "Como você avalia a comunicação com os pais?",
-        "Como você avalia as atividades extracurriculares?",
-        "Como você avalia o atendimento da secretaria?",
-        "Como você avalia a biblioteca?",
-        "Como você avalia os laboratórios?",
-        "Como você avalia o acesso à internet?",
-        "Como você avalia a inclusão de alunos especiais?",
-        "Como você avalia a gestão escolar?"
-    ],
-    servicos: [
-        "Como você avalia o atendimento na prefeitura?",
-        "Como você avalia a limpeza das ruas?",
-        "Como você avalia a iluminação pública?",
-        "Como você avalia o transporte público?",
-        "Como você avalia a manutenção das estradas?",
-        "Como você avalia o serviço de coleta de lixo?",
-        "Como você avalia o atendimento da polícia?",
-        "Como você avalia o serviço dos bombeiros?",
-        "Como você avalia o serviço de água?",
-        "Como você avalia o serviço de esgoto?",
-        "Como você avalia o serviço de internet?",
-        "Como você avalia o serviço de telefonia?",
-        "Como você avalia o serviço de energia elétrica?",
-        "Como você avalia o serviço de correios?",
-        "Como você avalia o serviço de cartórios?"
-    ]
-};
+// Importar o Firebase
+import { app, analytics } from './firebase-config.js';
+import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.8.0/firebase-firestore.js";
 
-// Location data
-const locations = {
-    saude: [
-        "UBS Waldir Viana – Bairro São Benedito",
-        "UBS da União – Bairro da União",
-        "UBS Doutor Toda – Bairro Francesa",
-        "UBS Tia Leó – Bairro Dejard Vieira",
-        "UBS Dr. Aldrin Verçosa – Bairro Itaúna",
-        "UBS Dom Arcângelo – Bairro Santa Rita de Cássia",
-        "UBS Darlinda Ribeiro – Bairro Palmares",
-        "UBS Paulo Pereira – Bairro Palmares",
-        "UBS Mãe Palmira – Bairro Palmares",
-        "UBS Galliani – Bairro Palmares",
-        "Centro de Saúde Denizal Pereira – Bairro Palmares",
-        "Centro de Saúde Irmão Francisco Galiani – Bairro Palmares",
-        "Centro de Saúde Maria do Carmo – Bairro Palmares",
-        "Centro de Saúde Padre Francisco Lupino – Bairro Palmares",
-        "UBS Fluvial Lígia Loyola – Unidade itinerante que atende comunidades ribeirinhas"
-    ],
-    educacao: [
-        "Escola Municipal Alberto Kimura Filho",
-        "Escola Municipal Beatriz Maranhão",
-        "Escola Municipal Betel",
-        "Escola Municipal Boa Vista",
-        "Escola Municipal Bom Jesus",
-        "Escola Municipal Brito Nascimento",
-        "Escola Municipal Charles Garcia",
-        "Escola Municipal Claudemir Carvalho",
-        "Escola Municipal Cristo Rei",
-        "Escola Municipal da Paz de Parintins",
-        "Escola Municipal Didel de Castro Garcia",
-        "Escola Municipal Divino Espírito Santo",
-        "Escola Municipal Guajarina Prestes",
-        "Escola Municipal Irmã Cristine",
-        "Escola Municipal Lila Maia",
-        "Escola Municipal Luiz Gonzaga",
-        "Escola Municipal Mércia Cardoso Coimbra",
-        "Escola Municipal Minervina Reis Ferreira",
-        "Escola Municipal Nossa Senhora da Saúde",
-        "Escola Municipal Nossa Senhora do Desterro",
-        "Escola Municipal Nossa Senhora do Perpétuo Socorro",
-        "Escola Municipal Presbiteriana Missionária Sue Ann Cousar",
-        "Escola Municipal Professor Manoel Nazaré Muniz",
-        "Escola Municipal Santa Luzia",
-        "Escola Municipal Santa Maria",
-        "Escola Municipal Santo Antônio",
-        "Escola Municipal São Francisco",
-        "Escola Municipal São Francisco de Assis",
-        "Escola Municipal São José",
-        "Escola Municipal Teodoro Reis",
-        "Escola Municipal Tsukasa Uyetsuka",
-        "Escola Municipal Waldemira Bentes",
-        "Escola Municipal Walkíria Viana Gonçalves",
-        "Centro Educacional Infantil Alvorada",
-        "Centro Educacional Infantil Aurora",
-        "Centro Educacional Infantil Castanheira",
-        "Centro Educacional Infantil Claudir Carvalho",
-        "Centro Educacional Infantil Dom Arcângelo Cerqua",
-        "Centro Educacional Infantil Evanilza Prestes Paixão",
-        "Centro Educacional Infantil Gurilândia",
-        "Centro Educacional Infantil Jaime Lobato",
-        "Centro Educacional Infantil Mirinópolis",
-        "Centro Educacional Infantil Novo Horizonte",
-        "Centro Educacional Infantil Novo Israel",
-        "Centro Educacional Infantil Palmares",
-        "Centro Educacional Infantil Pequeninos de Nazaré",
-        "Centro Educacional Infantil Sementinha",
-        "Centro Educacional Infantil Tia Dodô",
-        "Centro Educacional Nossa Senhora das Graças"
-    ]
-};
+// Inicializar Firestore
+const db = getFirestore(app);
+
+// Armazenar categorias e questões carregadas do Firebase
+let questions = {};
+let locations = {};
+
+// DOM Elements
+const cpfInput = document.getElementById('cpf');
+const nomeInput = document.getElementById('nome');
+const questionsContainer = document.getElementById('questionsContainer');
+const categoryButtonsContainer = document.querySelector('.category-buttons');
+const locationFilter = document.getElementById('locationFilter');
+const locationSelect = document.getElementById('locationSelect');
+const commentSection = document.getElementById('commentSection');
+const commentInput = document.getElementById('comment');
+const loadingOverlay = document.getElementById('loadingOverlay');
 
 // Options for all questions
 const options = ["Ótimo", "Bom", "Regular", "Ruim", "Péssimo", "Não usa o serviço"];
@@ -131,15 +26,98 @@ const options = ["Ótimo", "Bom", "Regular", "Ruim", "Péssimo", "Não usa o ser
 // Store survey responses
 let surveyResponses = JSON.parse(localStorage.getItem('surveyResponses')) || [];
 
-// DOM Elements
-const cpfInput = document.getElementById('cpf');
-const nomeInput = document.getElementById('nome');
-const questionsContainer = document.getElementById('questionsContainer');
-const categoryButtons = document.querySelectorAll('.category-btn');
-const locationFilter = document.getElementById('locationFilter');
-const locationSelect = document.getElementById('locationSelect');
-const commentSection = document.getElementById('commentSection');
-const commentInput = document.getElementById('comment');
+// Função para mostrar overlay de carregamento
+function showLoading() {
+    loadingOverlay.classList.remove('hidden');
+}
+
+// Função para esconder overlay de carregamento
+function hideLoading() {
+    loadingOverlay.classList.add('hidden');
+}
+
+// Função para carregar as categorias do Firestore
+async function loadCategories() {
+    showLoading();
+    try {
+        // Limpar o container de botões de categorias
+        categoryButtonsContainer.innerHTML = '';
+        
+        // Carregar categorias do Firestore
+        const categoriesSnapshot = await getDocs(collection(db, "categories"));
+        
+        if (categoriesSnapshot.empty) {
+            console.log('Nenhuma categoria encontrada no banco de dados');
+            showCustomAlert('Nenhuma categoria encontrada. Por favor, contate o administrador.');
+            return;
+        }
+        
+        // Ordenar categorias por ordem
+        const categoriesArray = [];
+        categoriesSnapshot.forEach((doc) => {
+            const categoryData = doc.data();
+            if (categoryData.active) {
+                categoriesArray.push({
+                    id: doc.id,
+                    name: categoryData.name,
+                    order: categoryData.order || 0
+                });
+            }
+        });
+        
+        // Ordenar por ordem
+        categoriesArray.sort((a, b) => a.order - b.order);
+        
+        // Criar botões para cada categoria
+        categoriesArray.forEach(category => {
+            const button = document.createElement('button');
+            button.className = 'category-btn';
+            button.dataset.category = category.id;
+            button.textContent = category.name;
+            categoryButtonsContainer.appendChild(button);
+            
+            // Adicionar event listener ao botão
+            button.addEventListener('click', function() {
+                handleCategorySelection(category.id);
+            });
+        });
+        
+        // Carregar questões e locais para cada categoria
+        await loadQuestionsAndLocations(categoriesArray);
+    } catch (error) {
+        console.error("Erro ao carregar categorias:", error);
+        showCustomAlert('Erro ao carregar categorias. Por favor, verifique sua conexão ou contate o administrador.');
+    } finally {
+        hideLoading();
+    }
+}
+
+// Função para carregar questões e locais para cada categoria
+async function loadQuestionsAndLocations(categories) {
+    try {
+        for (const category of categories) {
+            // Carregar questões
+            const questionsDoc = await getDoc(doc(db, "questions", category.id));
+            if (questionsDoc.exists()) {
+                questions[category.id] = questionsDoc.data().items || [];
+            } else {
+                questions[category.id] = [];
+            }
+            
+            // Carregar locais
+            const locationsDoc = await getDoc(doc(db, "locations", category.id));
+            if (locationsDoc.exists()) {
+                locations[category.id] = locationsDoc.data().items || [];
+            } else {
+                locations[category.id] = [];
+            }
+        }
+        
+        console.log("Questions and locations loaded:", questions, locations);
+    } catch (error) {
+        console.error("Erro ao carregar questões e locais:", error);
+    }
+}
 
 // CPF formatting
 cpfInput.addEventListener('input', function(e) {
@@ -155,14 +133,6 @@ cpfInput.addEventListener('input', function(e) {
     }
     
     e.target.value = value;
-});
-
-// Category button click handler
-categoryButtons.forEach(button => {
-    button.addEventListener('click', function() {
-        const category = this.dataset.category;
-        handleCategorySelection(category);
-    });
 });
 
 // Location select change handler
@@ -186,7 +156,7 @@ function handleCategorySelection(category) {
     locationSelect.dataset.category = category;
     
     // Check if this category has locations
-    if (locations[category]) {
+    if (locations[category] && locations[category].length > 0) {
         // Reset the location filter to ensure animation triggers again
         locationFilter.style.animation = 'none';
         locationFilter.offsetHeight; // Trigger reflow
@@ -198,11 +168,6 @@ function handleCategorySelection(category) {
         
         // Set the appropriate placeholder text based on category
         let placeholderText = "Selecione uma opção";
-        if (category === 'saude') {
-            placeholderText = "Selecione a Unidade de Saúde";
-        } else if (category === 'educacao') {
-            placeholderText = "Selecione a Unidade Escolar";
-        }
         
         // Populate location options
         locationSelect.innerHTML = `<option value="">${placeholderText}</option>`;
@@ -231,7 +196,12 @@ function displayQuestions(category) {
         questionsContainer.innerHTML = '';
         questionsContainer.style.opacity = '1';
         
-        const categoryQuestions = questions[category];
+        const categoryQuestions = questions[category] || [];
+        
+        if (categoryQuestions.length === 0) {
+            questionsContainer.innerHTML = '<p class="empty-state">Nenhuma pergunta encontrada para esta categoria.</p>';
+            return;
+        }
         
         categoryQuestions.forEach((question, index) => {
             const questionDiv = document.createElement('div');
@@ -326,7 +296,7 @@ function submitSurvey() {
     const selectedCategory = locationSelect.dataset.category;
     const selectedLocation = locationSelect.value;
     
-    if (locations[selectedCategory] && !selectedLocation) {
+    if (locations[selectedCategory] && locations[selectedCategory].length > 0 && !selectedLocation) {
         showCustomAlert('Por favor, selecione uma unidade.');
         return;
     }
@@ -369,4 +339,9 @@ function submitSurvey() {
     questionsContainer.innerHTML = '';
     commentSection.classList.add('hidden');
     locationFilter.classList.add('hidden');
-} 
+}
+
+// Iniciar carregando categorias quando o DOM estiver pronto
+document.addEventListener('DOMContentLoaded', () => {
+    loadCategories();
+});

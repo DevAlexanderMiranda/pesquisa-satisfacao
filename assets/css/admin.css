@@ -178,12 +178,48 @@ input:focus {
 /* Estilo para mensagem de erro */
 .error-message {
     color: #e74c3c;
+    background-color: #fdecea;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 10px 0;
     font-size: 14px;
-    margin: 5px 0;
-    min-height: 20px;
-    width: 100%;
-    max-width: 320px;
+    border-left: 4px solid #e74c3c;
     text-align: left;
+    display: none;
+}
+
+.error-message:not(:empty) {
+    display: block;
+}
+
+/* Campos com erro */
+.error-input {
+    border-color: #e74c3c !important;
+    background-color: #fff6f6;
+}
+
+/* Estado do botão de submissão */
+button[type="submit"]:disabled {
+    background-color: #95a5a6;
+    cursor: not-allowed;
+}
+
+/* Estado de carregamento */
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 button {
@@ -365,7 +401,7 @@ button:active {
         display: none;
     }
     
-    .sign-in, .sign-up, .forgot-pass {
+    .sign-in, .forgot-pass {
         opacity: 0;
         width: 100%;
         z-index: 1;
@@ -374,12 +410,6 @@ button:active {
     .sign-in {
         opacity: 1;
         z-index: 2;
-    }
-    
-    .container.active .sign-up {
-        opacity: 1;
-        z-index: 5;
-        transform: translateX(0);
     }
     
     .container.forgot .forgot-pass {
@@ -410,4 +440,292 @@ button:active {
         margin-top: 20px;
         z-index: 10;
     }
+}
+
+/* Estilos para o painel administrativo */
+.admin-panel {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.admin-panel h1 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.admin-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.user-management {
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.user-management h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.user-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.user-info .name {
+  font-weight: 600;
+  color: #333;
+}
+
+.user-info .email {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.user-info .role {
+  font-size: 0.8rem;
+  padding: 3px 8px;
+  background-color: #e6f7ff;
+  color: #0c71c3;
+  border-radius: 12px;
+  align-self: flex-start;
+}
+
+.user-info .role.admin {
+  background-color: #f6ffed;
+  color: #52c41a;
+}
+
+.user-info .role.editor {
+  background-color: #fff7e6;
+  color: #fa8c16;
+}
+
+.user-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.user-actions button {
+  padding: 8px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.edit-role-btn {
+  background-color: #e6f7ff;
+  color: #0c71c3;
+}
+
+.edit-role-btn:hover {
+  background-color: #bae7ff;
+}
+
+.delete-user-btn {
+  background-color: #fff1f0;
+  color: #f5222d;
+}
+
+.delete-user-btn:hover {
+  background-color: #ffccc7;
+}
+
+.logout-btn {
+  padding: 12px;
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-end;
+}
+
+.logout-btn:hover {
+  background-color: #e8e8e8;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Estilos para o formulário de edição de permissões */
+.role-selector {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .admin-panel {
+    padding: 20px;
+    margin: 30px 15px;
+  }
+
+  .user-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .user-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+/* Modificar o layout para tela de login sem cadastro */
+.container {
+  min-height: 480px;
+  width: 90%;
+  max-width: 850px;
+}
+
+.sign-in {
+  width: 50%;
+  opacity: 1;
+  z-index: 2;
+}
+
+.forgot-pass {
+  width: 50%;
+}
+
+.toggle-panel.toggle-right.visible {
+  opacity: 1;
+}
+
+.toggle-container {
+  left: 50%;
+  width: 50%;
+  z-index: 100;
+}
+
+/* Estado quando "forgot" class é adicionada - Esqueci Senha visível */
+.container.forgot .sign-in {
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.forgot .forgot-pass {
+  opacity: 1;
+  z-index: 5;
+}
+
+@media (max-width: 768px) {
+  .container {
+    min-height: 480px;
+    width: 90%;
+  }
+  
+  .form-container {
+    width: 100%;
+    left: 0;
+  }
+  
+  .toggle-container {
+    display: none;
+  }
+  
+  .sign-in, .forgot-pass {
+    opacity: 0;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .sign-in {
+    opacity: 1;
+    z-index: 2;
+  }
+  
+  .container.forgot .forgot-pass {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+/* Mensagens de sucesso */
+.success-message {
+  color: #27ae60;
+  background-color: #e8f8f3;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-size: 14px;
+  border-left: 4px solid #27ae60;
+  text-align: left;
+}
+
+/* Loading Overlay */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s, visibility 0.3s;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader {
+  border: 5px solid rgba(108, 99, 255, 0.2);
+  border-radius: 50%;
+  border-top: 5px solid #6c63ff;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 15px;
+}
+
+.loading-overlay p {
+  color: #6c63ff;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 } 
